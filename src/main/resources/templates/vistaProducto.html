@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head >
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
+<meta charset="ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container">
+	<div class="row" th:if="${bandera}"><small class=" text text-danger">Falta Ingresar una cantidad</small></div>
+		<form  th:action="@{procesarProducto}" method="post">
+		<div class="row">
+			<div class="col-md-4">
+				<div  class="fom-group">
+				<label>Producto:</label>
+				<select name="producto">
+				  <option  th:each="producto : ${listaProducto}"  th:value="${producto.id_producto}" th:text="${producto.descripcion}" />
+				</select>	
+				</div>
+			</div>
+				<div class="col-md-4">
+				<div  class="form-group">
+				<label>Cantidad:</label>
+				<input  name="cantidad"   type="text" />
+				  </div>
+				
+			</div>
+			
+			<div class="col-md-4 ">
+				<button class="btn btn-success" >Enviar</button>
+			</div>
+		</div>
+
+
+</form>
+			</div>
+			
+			
+			
+			<table  class="table" th:if="${!listaDetalle.isEmpty()}">
+			<thead>
+			<th>Empleado</th>
+			<th>Cliente</th>
+			<th>Producto</th>
+			<th>Cantidad</th>
+			<th>Fecha</th>
+			<th>Objeto</th>
+			<th>Acción</th>
+			</thead>
+			<tbody>
+			<tr   th:each="obj : ${listaDetalle}">
+
+			<td  th:text="${obj.orden.empleado.nombre}"/>
+			<td  th:text="${obj.orden.cliente.nombre}"/>
+			<td  th:text="${obj.producto.descripcion}"/>
+			<td  th:text="${obj.cantidad}"/>
+			<td  th:text="${obj.orden.fecha_generada}"/>
+			<td  th:text="${obj.toString()}"/>
+			
+	<td> <a  class="btn btn-danger" th:href="${'/eliminar/'} + ${obj.toString()}">Eliminar</a> </td>	
+	<!-- 
+	<td> <a  class="btn btn-danger" th:href="${'/eliminar/'+ obj.toString()}">Eliminar</a> </td> 1 
+	<td> <a  class="btn btn-danger" th:href="${'/eliminar/'} + ${obj.toString()}">Eliminar</a> </td> sive tambien
+	<td> <a  class="btn btn-danger" th:href="@{/eliminar(algo=${obj.toString()})}">Eliminar</a> </td>	3  sirve tambien -->	
+			 
+			</tr>
+			
+			 
+				
+			
+			</tbody>
+		
+			
+			</table>
+			<form  th:action="@{lanzar}" method="post">
+			
+			<button class="btn btn-danger  form-control"   th:disabled="${listaDetalle.isEmpty()}"> Enviar todo</button>  
+			
+			</form>
+</body>
+</html>
